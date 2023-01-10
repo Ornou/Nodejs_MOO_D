@@ -35,7 +35,7 @@ function authorize (method) {
             user_role = user.role;
 
             const role = await Role.findByPk(user_role);
-            console.log(role.roles);
+           // console.log(role.roles);
             
             // Si roles n'est pas un tableau, créez-en un avec un seul élément
             var roles = role.roles.split(",");

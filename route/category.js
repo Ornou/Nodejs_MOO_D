@@ -5,12 +5,12 @@ const {
     Category
 } = require('../models');
 
-categoryRouter.get('/categories', authenticateJWT, authorize("get"), async (req, res) => {
+categoryRouter.get('/api/categories', authenticateJWT, authorize("get"), async (req, res) => {
     const categories = await Category.findAll();
     res.json(categories);
 });
 
-categoryRouter.post('/categories', authenticateJWT , authorize("post"), async (req, res) => {
+categoryRouter.post('/api/categories', authenticateJWT , authorize("post"), async (req, res) => {
     try {
         const {
             name
@@ -24,7 +24,7 @@ categoryRouter.post('/categories', authenticateJWT , authorize("post"), async (r
     }
 });
 
-categoryRouter.put('/categories/:id', authenticateJWT , authorize("put"), async (req, res) => {
+categoryRouter.put('/api/categories/:id', authenticateJWT , authorize("put"), async (req, res) => {
     try {
         const {
             id
@@ -44,7 +44,7 @@ categoryRouter.put('/categories/:id', authenticateJWT , authorize("put"), async 
         res.status(400).send(error.message);
     }
 });
-categoryRouter.get('/categories/:id', authenticateJWT , authorize("get"), async (req, res) => {
+categoryRouter.get('/api/categories/:id', authenticateJWT , authorize("get"), async (req, res) => {
     try {
         const {
             id
@@ -59,7 +59,7 @@ categoryRouter.get('/categories/:id', authenticateJWT , authorize("get"), async 
     }
 });
 
-categoryRouter.delete('/categories/:id', authenticateJWT, authorize("delete"), async (req, res) => {
+categoryRouter.delete('/api/categories/:id', authenticateJWT, authorize("delete"), async (req, res) => {
     try {
         const {
             id

@@ -1,10 +1,12 @@
 const Sequelize = require('sequelize');
-const sequelize=require('--/models/index');
+const {sequelize} =require('../config/db');
+const { User } = require('./user');
+
 const Category = sequelize.define('category', {
     name: {
       type: Sequelize.STRING,
       allowNull: false
     }
   });
-  Category.hasMany(Task);
+
   module.exports = {Category};

@@ -1,55 +1,26 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const cors = require("cors");
+const roleRouter = require('./route/role');
+const categoryRouter = require('./route/category');
+const taskRouter = require('./route/task');
+const userRouter = require('./route/user');
+
 
 const app = express();
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 
-var corsOptions = {
-  origin: "http://localhost:8081"
-};
-
-app.use(cors(corsOptions));
-
-// parse requests of content-type - application/json
 app.use(bodyParser.json());
 
-// parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(roleRouter);
+app.use(categoryRouter);
+app.use(userRouter);
+app.use(taskRouter);
 
-// database
-const db = require("./models");
-const Role = db.role;
 
-db.sequelize.sync();
-// force: true will drop the table if it already exists
-// db.sequelize.sync({force: true}).then(() => {
-//   console.log('Drop and Resync Database with { force: true }');
-//   initial();
-// });
-
-// simple route
-app.get("/", (req, res) => {
-  res.json({ message: "Express API is Ready" });
+app.listen(8080, () => {
+    console.log('Listening on port 3000');
+    
 });
-
-// routes
-require('./routes/auth.routes')(app);
-require('./routes/user.routes')(app);
-
-// set port, listen for requests
-const PORT =  8080;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
-});
-
-function initial() {
-  Role.create({
-    id: 1,
-    name: "user"
-  });
- 
-  Role.create({
-    id: 2,
-    name: "admin"
-  });
-}

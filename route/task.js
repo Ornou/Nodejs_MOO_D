@@ -16,18 +16,18 @@ taskRouter.get('/api/tasks', authenticateJWT,authorize("get"), async (req, res) 
     res.json(tasks);
 });
 
-taskRouter.post('/tasks', authenticateJWT,authorize("post"), async (req, res) => {
+taskRouter.post('/api/tasks', authenticateJWT,authorize("post"), async (req, res) => {
     try {
         const {
-            titre,
+            name,
             description,
-            Date,
+            dueDate,
             categoryId
         } = req.body;
         const task = await Task.create({
-            titre,
+            name,
             description,
-            Date,
+            dueDate,
             userId: req.userId,
             categoryId
         });
@@ -37,7 +37,7 @@ taskRouter.post('/tasks', authenticateJWT,authorize("post"), async (req, res) =>
     }
 });
 
-taskRouter.put('/tasks/:id', authenticateJWT, authorize("put"), async (req, res) => {
+taskRouter.put('/api/tasks/:id', authenticateJWT, authorize("put"), async (req, res) => {
     try {
         const {
             id
@@ -49,20 +49,20 @@ taskRouter.put('/tasks/:id', authenticateJWT, authorize("put"), async (req, res)
             }
         });
         if (!task) {
-            return res.status(404).send('Tache introuvable');
+            return res.status(404).send('Task not found');
         }
         const {
-            titre,
+            name,
             description,
-            Date,
-            statut,
+            dueDate,
+            status,
             categoryId
         } = req.body;
         await task.update({
-            titre,
+            name,
             description,
-            Date,
-            statut,
+            dueDate,
+            status,
             categoryId
         });
         res.json(task);
@@ -71,7 +71,7 @@ taskRouter.put('/tasks/:id', authenticateJWT, authorize("put"), async (req, res)
     }
 });
 
-taskRouter.get('/tasks/:id', authenticateJWT, authorize("get"), async (req, res) => {
+taskRouter.get('/api/tasks/:id', authenticateJWT, authorize("get"), async (req, res) => {
     try {
         const {
             id
@@ -83,7 +83,7 @@ taskRouter.get('/tasks/:id', authenticateJWT, authorize("get"), async (req, res)
             }
         });
         if (!task) {
-            return res.status(404).send('Tache introuvable');
+            return res.status(404).send('Task not found');
         }
         res.json(task);
     } catch (error) {
@@ -91,7 +91,7 @@ taskRouter.get('/tasks/:id', authenticateJWT, authorize("get"), async (req, res)
     }
 });
 
-taskRouter.delete('/tasks/:id', authenticateJWT, authorize("delete"), async (req, res) => {
+taskRouter.delete('/api/tasks/:id', authenticateJWT, authorize("delete"), async (req, res) => {
     try {
         const {
             id
@@ -103,7 +103,7 @@ taskRouter.delete('/tasks/:id', authenticateJWT, authorize("delete"), async (req
             }
         });
         if (!task) {
-            return res.status(404).send('Tache introuvable');
+            return res.status(404).send('Task not found');
         }
         await task.destroy();
         res.sendStatus(204);
